@@ -56,21 +56,6 @@ $env.NU_PLUGIN_DIRS = [
 
 $env.LS_COLORS = (dircolors -b)
 
-$env.FZF_DEFAULT_OPTS = [
-    "--height 50% "
-    "--layout reverse "
-    "--border rounded "
-    "--margin 0,2 "
-    "--color "
-    "fg:#D2EBFB," # text
-    "fg+:#D2EBFB,bg+:#232B3A," # text on the current line
-    "hl:#9ECECD,hl+:#9ECECD," # highlighted substrings
-    "info:#464B5D,pointer:#88ACD7,marker:#E4F8FF,"
-    "border:#242B38,spinner:#E4957C,prompt:#E3F5FF,"
-    "label:#ECEFF4,gutter:#141A23"
-] | str join
-$env._ZO_FZF_OPTS = $env.FZF_DEFAULT_OPTS | str join " --no-preview"
-
 # TEMPORARY
 $env.__zoxide_hooked = true
 

@@ -4,7 +4,7 @@ let theme = {
   # bg_alt_1:   "#19212d", # lighter background
 
   # fg_0:       "#a5b7ca", # darker text
-  # fg_1:       "#bacfe2", # slightly darker text
+  fg_1:       "#bacfe2", # slightly darker text
   fg_2:       "#cce4f1", # normal text
   fg_3:       "#e3f5ff", # for titles and headings
 
@@ -173,3 +173,15 @@ $env.config.explore = {
     },
     selected_cell: { bg: $theme.selection },
 }
+
+$env.FZF_DEFAULT_OPTS = [
+    "--layout reverse "
+    "--color "
+    $"fg:($theme.fg_1)," # text
+    $"fg+:($theme.fg_3),bg+:($theme.selection)," # text on the current line
+    $"hl:($theme.grad_0),hl+:($theme.bg)," # highlighted substrings
+    $"info:($theme.stealth_2),pointer:($theme.grad_3),marker:($theme.fg_3),"
+    $"border:($theme.border_1),spinner:($theme.grad_1),prompt:($theme.fg_3),"
+    $"label:($theme.fg_3),gutter:($theme.bg)"
+] | str join
+$env._ZO_FZF_OPTS = $env.FZF_DEFAULT_OPTS | str join " --no-preview"
