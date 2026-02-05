@@ -2,8 +2,8 @@
 #
 # version = "0.92.2"
 
-use $"($nu.default-config-dir)/themes/material.nu"
-# use $"($nu.default-config-dir)/themes/material-lighter.nu"
+# use $"($nu.default-config-dir)/themes/balaena.nu"
+# use $"($nu.default-config-dir)/themes/nord-light.nu"
 
 $env.config = {
     show_banner: false
@@ -18,7 +18,7 @@ $env.config = {
     }
 
     table: {
-        mode: rounded
+        mode: single
         index_mode: always
         show_empty: true
         padding: { left: 1, right: 1 }
@@ -74,8 +74,7 @@ $env.config = {
     }
 
     filesize: {
-        metric: true # true => KB, MB, GB (ISO standard), false => KiB, MiB, GiB (Windows standard)
-        format: "auto" # b, kb, kib, mb, mib, gb, gib, tb, tib, pb, pib, eb, eib, auto
+        unit: "metric"
     }
 
     cursor_shape: {
@@ -84,9 +83,9 @@ $env.config = {
         vi_normal: block
     }
 
-    color_config: (material)
-    use_grid_icons: true
-    footer_mode: "25" # always, never, number_of_rows, auto
+    # color_config: (balaena)
+    # use_grid_icons: true
+    footer_mode: 25 # always, never, number_of_rows, auto
     float_precision: 2 # the precision for displaying floats in tables
     buffer_editor: "" # command that will be used to edit the current line buffer with ctrl+o, if unset fallback to $env.EDITOR and $env.VISUAL
     use_ansi_coloring: true
@@ -174,6 +173,7 @@ $env.config = {
             }
             style: {
                 text: light_gray
+                # border: "#232637"
                 selected_text: { attr: r }
                 description_text: white
                 match_text: { attr: u }
@@ -183,7 +183,7 @@ $env.config = {
         {
             name: history_menu
             only_buffer_difference: true
-            marker: "? "
+            marker: "^ "
             type: {
                 layout: list
                 page_size: 10
@@ -263,7 +263,7 @@ $env.config = {
         }
         {
             name: help_menu
-            modifier: alt
+            modifier: control
             keycode: char_h
             mode: [emacs, vi_insert, vi_normal]
             event: { send: menu name: help_menu }
@@ -591,7 +591,7 @@ $env.config = {
         }
         {
             name: cut_line_to_end
-            modifier: control
+            modifier: alt
             keycode: char_k
             mode: emacs
             event: { edit: cuttoend }
@@ -737,12 +737,16 @@ $env.config = {
     ]
 }
 
+source themes/balaena.nu
+
 # aliases
 alias cpdir = cp -r
 alias ll = ls -l
 alias la = ls -a
 alias tree = lsd --tree
 alias cat = bat
+
+alias task = pueue
 
 alias vi = nvim
 alias nv = neovide
@@ -751,20 +755,35 @@ alias ga = git add
 alias gc = git commit
 alias gp = git push
 
+# add yazi helper function
+use yazi.nu y
+
 # a more ergonomic way to use pacman
 use pac.nu
 
 # fast wifi search and connect
 use wifi-tools.nu *
 
+# background jobs
+use task.nu
+
+# dynamic colorscheme selcection
+use colorscheme.nu *
+
+# try this out
+use frontmatter.nu *
+
 # add nupm package manager
-use $"($nu.default-config-dir)/nupm/modules/nupm"
+# use $"($nu.default-config-dir)/nupm/modules/nupm"
 
 # add completions
-# use $"($nu.default-config-dir)/completions" *
-
-# add zoxide
-source $"($nu.default-config-dir)/zoxide.nu"
+use completions/cargo-completions.nu *
+use completions/git-completions.nu *
+use completions/rustup-completions.nu *
+use completions/pueue-completions.nu *
 
 # add starship prompt
 use ~/.cache/starship/init.nu
+
+# add zoxide
+source "zoxide.nu"

@@ -1,16 +1,3 @@
-# def commands [] {
-#     [
-#         { value "i", description "install" },
-#         { value "r", description "remove" },
-#         { value "s", description "search for a package" },
-#         { value "u", description "update" },
-#         { value "y", description "syncronise repositories" },
-#         { value "q", description "package info" },
-#         { value "l", description "query installed" },
-#         { value "si", description "list installed" },
-#     ]
-# }
-
 # a more ergonomic way to use pacman
 export def main [
     command: string, # the command to execute

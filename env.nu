@@ -17,7 +17,14 @@ $env.ENV_CONVERSIONS = {
     }
 }
 
-$env.NUPM_HOME = ($nu.default-config-dir | path join "nupm")
+# Java variable
+# $env.NUPM_HOME = $nu.default-config-dir | path join "nupm"
+# $env.JAVA_HOME = "/usr/lib/jvm/java-17-openjdk"
+$env.JAVA_HOME = "/usr/lib/jvm/java-21-openjdk"
+# $env.JAVA_HOME = "/usr/lib/jvm/java-23-openjdk"
+
+# Go variable
+$env.GOPATH = ($env.HOME | path join ".go")
 
 # Directories to search for scripts when calling source or use
 # The default for this is $nu.default-config-dir/scripts
@@ -25,19 +32,20 @@ $env.NU_LIB_DIRS = [
     ($nu.default-config-dir | path join 'scripts'),
     ($nu.default-config-dir | path join 'modules'),
     ($nu.default-config-dir | path join 'completions'),
-    ($env.NUPM_HOME | path join "modules")
+    # ($env.NUPM_HOME | path join "modules")
 ]
 
-$env.PATH = ($env.PATH | split row (char esep)
+$env.PATH = $env.PATH | split row (char esep)
   | append /bin
   | append /usr/bin
   | append /usr/local/bin
-  | append ($env.HOME | path join ".local bin")
+  | append ($env.HOME | path join ".local/bin")
   | append ($env.HOME | path join ".cargo/bin")
   | append ($env.HOME | path join ".rustup/bin")
-  | prepend ($env.NUPM_HOME | path join "scripts")
-  | prepend ($env.NUPM_HOME | path join "plugins/bin")
-  | uniq) # filter so the paths are unique
+  | append ($env.JAVA_HOME | path join "bin")
+  | uniq # filter so the paths are unique
+  # | prepend ($env.NUPM_HOME | path join "scripts")
+  # | prepend ($env.NUPM_HOME | path join "plugins/bin")
 
 
 # Directories to search for plugin binaries when calling register
@@ -48,31 +56,23 @@ $env.NU_PLUGIN_DIRS = [
 
 $env.LS_COLORS = (dircolors -b)
 
-$env.FZF_DEFAULT_OPTS = ([
+$env.FZF_DEFAULT_OPTS = [
     "--height 50% "
     "--layout reverse "
     "--border rounded "
-    # "--preview 'bat --color always {}' "
+    "--margin 0,2 "
     "--color "
-    "fg:#A6ACCD,bg:#0F111A," # text
-    "fg+:#EEFFFF,bg+:#1F2233," # text on the current line
-    "hl:#C3E88D,hl+:#C3E88D," # highlighted substrings
-    "info:#464B5D,pointer:#84FFFF,marker:#FFCB6B,"
-    "border:#232637,spinner:#C792EA,prompt:#EEFFFF,"
-    "gutter:#0F111A"
-] | str join)
-$env._ZO_FZF_OPTS = ($env.FZF_DEFAULT_OPTS | str join " --no-preview")
+    "fg:#D2EBFB," # text
+    "fg+:#D2EBFB,bg+:#232B3A," # text on the current line
+    "hl:#9ECECD,hl+:#9ECECD," # highlighted substrings
+    "info:#464B5D,pointer:#88ACD7,marker:#E4F8FF,"
+    "border:#242B38,spinner:#E4957C,prompt:#E3F5FF,"
+    "label:#ECEFF4,gutter:#141A23"
+] | str join
+$env._ZO_FZF_OPTS = $env.FZF_DEFAULT_OPTS | str join " --no-preview"
 
-# To add entries to PATH (on Windows you might use Path), you can use the following pattern:
-# $env.PATH = ($env.PATH | split row (char esep) | prepend '/some/path')
-# An alternate way to add entries to $env.PATH is to use the custom command `path add`
-# which is built into the nushell stdlib:
-# use std "path add"
-# $env.PATH = ($env.PATH | split row (char esep))
-# path add /some/path
-# path add ($env.CARGO_HOME | path join "bin")
-# path add ($env.HOME | path join ".local" "bin")
-# $env.PATH = ($env.PATH | uniq)
+# TEMPORARY
+$env.__zoxide_hooked = true
 
 # To load from a custom file you can use:
 # source ($nu.default-config-dir | path join 'custom.nu')

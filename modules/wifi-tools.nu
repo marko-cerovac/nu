@@ -23,7 +23,7 @@ export def "wifi connect" [] {
                  | get name
                  | append "Disconnect"
                  | str join "\n"
-                 | fzf
+                 | fzf --border-label="Choose network"
 
     if ($choice | is-empty) {
         return
